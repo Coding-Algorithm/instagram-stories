@@ -3,9 +3,7 @@ import {
   Image,
   SafeAreaView,
   StyleSheet,
-  Text,
   View,
-  Animated,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import users from "../data/users";
@@ -25,10 +23,6 @@ const StatusDisplay = ({ navigation, route }) => {
   const [activeUserIndex, setActiveUserIndex] = useState(userInfo);
 
   const userStatusArray = users[activeUserIndex].status;
-
-  const activeStatus = users[activeUserIndex].status[activeStatusIndex];
-
-  console.log(activeStatus);
 
   const slidesRef = useRef(null);
 
