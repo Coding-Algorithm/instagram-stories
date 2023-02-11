@@ -23,7 +23,7 @@ const UserItem = ({ index, name }) => {
     >
       {/*user profile picture */}
 
-      <ProfilePic source={users[index]?.profiePic} />
+      <ProfilePic source={users[index]?.pPix} />
 
       {/* user details */}
       <View>

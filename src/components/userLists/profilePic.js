@@ -2,11 +2,13 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { margin } from "../../utils/globalStyles";
 
-const ProfilePic = ({ containerStyle, picUrl }) => {
+const ProfilePic = ({ containerStyle = {}, source }) => {
+
   return (
     <View style={[styles.container, containerStyle]}>
       <Image
-        source={require("../../assets/images/img1.jpg")}
+        source={{ uri: source }}
+        style={{ width: "100%", height: "100%" }}
         resizeMode="cover"
       />
     </View>
@@ -22,6 +24,6 @@ const styles = StyleSheet.create({
     backgroundColor: "grey",
     borderRadius: 50,
     marginRight: margin.md,
-    overflow: 'hidden'
+    overflow: "hidden",
   },
 });

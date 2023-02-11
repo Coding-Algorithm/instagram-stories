@@ -5,15 +5,18 @@ import { windowWidth } from "../../utils/dimensions";
 import { radius } from "../../utils/globalStyles";
 
 const DisplayBars = ({ userInfo, item, activeStatusIndex }) => {
-  const statusArray = users[userInfo].status;
+  const statusArray = users[activeStatusIndex].status;
 
   const barWidth = windowWidth / statusArray.length - 30;
+
+  console.log(barWidth, statusArray.length, 'width')
 
   return (
     <View
       style={{
         width: barWidth,
         height: 5,
+        marginRight: 5,
         backgroundColor: "grey",
         borderRadius: radius.sm,
       }}

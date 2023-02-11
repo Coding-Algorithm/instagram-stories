@@ -47,10 +47,8 @@ const StatusDisplay = ({ navigation, route }) => {
   const resetStatusCounter = () => (statusCount = 0);
 
   const counter = () => {
-    console.log(statusCount < COUNTDOWN);
 
     if (statusCount <= COUNTDOWN) {
-      console.log("lesser");
       increaseStatusCounter();
     }
 
@@ -63,7 +61,7 @@ const StatusDisplay = ({ navigation, route }) => {
       } else {
         const nextUserIndex = activeUserIndex + 1;
         if (nextUserIndex <= users.length - 1) {
-          setActiveStatusIndex(-1);
+          setActiveStatusIndex(0);
           resetStatusCounter();
           setActiveUserIndex(nextUserIndex);
         } else {
@@ -105,12 +103,10 @@ const StatusDisplay = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    console.log(statusCount);
 
     const count = setInterval(counter, 1000);
 
     return () => {
-      console.log("clearing");
       clearInterval(count);
     };
   }, [activeStatusIndex, activeUserIndex]);
