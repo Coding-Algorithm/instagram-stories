@@ -11,16 +11,10 @@ import React, { useEffect, useRef, useState } from "react";
 import users from "../data/users";
 import StatusHeader from "../components/statusDisplay/statusHeader";
 import { padding } from "../utils/globalStyles";
-import {
-  screenHeight,
-  screenWidth,
-  windowHeight,
-  windowWidth,
-} from "../utils/dimensions";
+import { screenHeight, screenWidth } from "../utils/dimensions";
 import { COUNTDOWN } from "../utils/constants";
 
 const StatusDisplay = ({ navigation, route }) => {
-  // const navigation = useNavigation()
   const { params } = route;
 
   const { userInfo } = params;
@@ -29,6 +23,10 @@ const StatusDisplay = ({ navigation, route }) => {
   const [activeUserIndex, setActiveUserIndex] = useState(userInfo);
 
   const userStatusArray = users[activeUserIndex].status;
+
+
+  let statusCount = 0;
+  // let activeStatusIndex = 0;
 
   console.log(
     "array length: ",
@@ -39,7 +37,7 @@ const StatusDisplay = ({ navigation, route }) => {
     activeStatusIndex
   );
 
-  let statusCount = 0;
+  // let statusCount = 0;
   const slidesRef = useRef(null);
 
   const increaseStatusCounter = () => (statusCount += 1);
@@ -47,21 +45,23 @@ const StatusDisplay = ({ navigation, route }) => {
   const resetStatusCounter = () => (statusCount = 0);
 
   const counter = () => {
-
     if (statusCount <= COUNTDOWN) {
       increaseStatusCounter();
     }
-
     if (statusCount > COUNTDOWN) {
       const nextStatusIndex = activeStatusIndex + 1;
+      console.log(nextStatusIndex <= userStatusArray.length - 1, "statusCount");
       if (nextStatusIndex <= userStatusArray.length - 1) {
+        console.log('inside true', nextStatusIndex)
         setActiveStatusIndex(nextStatusIndex);
         slidesRef.current.scrollToIndex({ index: nextStatusIndex });
         resetStatusCounter();
       } else {
         const nextUserIndex = activeUserIndex + 1;
+        console.log(nextUserIndex <= users.length - 1, activeStatusIndex, 'new user')
         if (nextUserIndex <= users.length - 1) {
           setActiveStatusIndex(0);
+          slidesRef.current.scrollToIndex({animated: false, index: 0 });
           resetStatusCounter();
           setActiveUserIndex(nextUserIndex);
         } else {
@@ -69,10 +69,6 @@ const StatusDisplay = ({ navigation, route }) => {
         }
       }
     }
-  };
-
-  const setIndex = (index) => {
-    slidesRef.current.scrollToIndex({ animated: true, index: index });
   };
 
   // subComponent
@@ -103,11 +99,13 @@ const StatusDisplay = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-
     const count = setInterval(counter, 1000);
+    resetStatusCounter();
 
     return () => {
+      console.log('here..///')
       clearInterval(count);
+      resetStatusCounter();
     };
   }, [activeStatusIndex, activeUserIndex]);
 
@@ -122,9 +120,6 @@ const StatusDisplay = ({ navigation, route }) => {
           userInfo={userInfo}
         />
 
-        {/* image in background */}
-
-        {/* <Image /> */}
         <View
           style={{
             width: screenWidth,
@@ -138,7 +133,6 @@ const StatusDisplay = ({ navigation, route }) => {
               <DisplayImage item={item} index={index} />
             )}
             horizontal
-            // bounces={false}
             pagingEnabled
             ref={slidesRef}
           />
@@ -153,8 +147,5 @@ export default StatusDisplay;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingHorizontal: padding.md,
-    // paddingVertical: padding.lg,
-    // backgroundColor: 'blue'
   },
 });

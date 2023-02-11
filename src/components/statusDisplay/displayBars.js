@@ -4,19 +4,26 @@ import users from "../../data/users";
 import { windowWidth } from "../../utils/dimensions";
 import { radius } from "../../utils/globalStyles";
 
-const DisplayBars = ({ userInfo, item, activeStatusIndex }) => {
-  const statusArray = users[activeStatusIndex].status;
+const DisplayBars = ({
+  userInfo,
+  item,
+  activeStatusIndex,
+  activeUserIndex,
+}) => {
+  const statusArray = users[activeUserIndex].status;
 
-  const barWidth = windowWidth / statusArray.length - 30;
 
-  console.log(barWidth, statusArray.length, 'width')
+  const totalMargin = (statusArray.length - 1) * 6;
+  const barWidth = (windowWidth - 30 - totalMargin) / statusArray.length;
+
+  const percentWidth = (barWidth / windowWidth) * 100 + "%";
 
   return (
     <View
       style={{
-        width: barWidth,
+        width: percentWidth,
         height: 5,
-        marginRight: 5,
+        marginRight: 6,
         backgroundColor: "grey",
         borderRadius: radius.sm,
       }}

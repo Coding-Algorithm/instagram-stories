@@ -8,24 +8,44 @@ import DisplayBars from "./displayBars";
 const StatusHeader = ({ userInfo, activeStatusIndex, activeUserIndex }) => {
   const statusArray = users[activeUserIndex].status;
 
-  // console.log(statusArray.length, activeUserIndex,  "status header");
+  const totalMargin = (statusArray.length - 1) * 6;
+  const remainingWidth = windowWidth - 120;
+  const barWidth = remainingWidth / statusArray.length - totalMargin;
+
+  const percentWidth = (barWidth / remainingWidth) * 100 + "%";
+
+
+
+
 
   useEffect(() => {}, [statusArray]);
 
   return (
     <View style={styles.container}>
-      <ProfilePic  source={users[activeUserIndex].pPix} containerStyle={{ width: 40, height: 40 }} />
-      {statusArray.map((item, index) => {
-        
-        return (
+      <ProfilePic
+        source={users[activeUserIndex].pPix}
+        containerStyle={{ width: 40, height: 40 }}
+      />
+
+      <View
+        style={{
+          width: "90%",
+          flexDirection: 'row',
+          justifyContent: "flex-start"
+        }}
+      >
+        {statusArray.map((item, index) => {
+          return (
             <DisplayBars
               key={index}
               item={item}
+              activeUserIndex={activeUserIndex}
               activeStatusIndex={activeStatusIndex}
               userInfo={userInfo}
             />
-        );
-      })}
+          );
+        })}
+      </View>
     </View>
   );
 };
@@ -42,7 +62,5 @@ const styles = StyleSheet.create({
     paddingVertical: padding.lg,
     position: "absolute",
     zIndex: 10,
-    // backgroundColor: "blue",
-    // paddingHorizontal: padding.md,
   },
 });

@@ -9,7 +9,6 @@ import MediumText from "../../utils/texts/mediumText";
 import SmallText from "../../utils/texts/smallText";
 
 const UserItem = ({ index, name }) => {
-  // const { index, name } = props;
   const navigation = useNavigation();
 
   return (
@@ -21,16 +20,11 @@ const UserItem = ({ index, name }) => {
         console.log("User pressed");
       }}
     >
-      {/*user profile picture */}
-
       <ProfilePic source={users[index]?.pPix} />
 
-      {/* user details */}
       <View>
         <MediumText title={name} />
-
         <SmallText title="Time..." />
-        {/* <Text>Time..</Text> */}
       </View>
     </Pressable>
   );
@@ -44,9 +38,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: windowWidth,
     padding: padding.lg,
-    // backgroundColor: 'grey',
     borderRadius: radius.lg,
-    // borderBottomWidth: 1,
-    // borderBottomColor: 'grey'
   },
 });
