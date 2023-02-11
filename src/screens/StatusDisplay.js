@@ -10,11 +10,13 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import users from "../data/users";
 import StatusHeader from "../components/statusDisplay/statusHeader";
-import { padding } from "../utils/globalStyles";
 import { screenHeight, screenWidth } from "../utils/dimensions";
 import { COUNTDOWN } from "../utils/constants";
+import { GetContext } from "../context/GlobalContext/GlobalContext";
 
 const StatusDisplay = ({ navigation, route }) => {
+  const { statusCount } = GetContext();
+
   const { params } = route;
 
   const { userInfo } = params;
@@ -24,44 +26,33 @@ const StatusDisplay = ({ navigation, route }) => {
 
   const userStatusArray = users[activeUserIndex].status;
 
+  const activeStatus = users[activeUserIndex].status[activeStatusIndex];
 
-  let statusCount = 0;
-  // let activeStatusIndex = 0;
+  console.log(activeStatus);
 
-  console.log(
-    "array length: ",
-    userStatusArray.length,
-    "   --  id: ",
-    users[activeUserIndex].id,
-    "   --  index: ",
-    activeStatusIndex
-  );
-
-  // let statusCount = 0;
   const slidesRef = useRef(null);
 
-  const increaseStatusCounter = () => (statusCount += 1);
-  const decreaseStatusCounter = () => (statusCount -= 1);
-  const resetStatusCounter = () => (statusCount = 0);
+  const increaseStatusCounter = () => (statusCount.current += 1);
+  const resetStatusCounter = () => (statusCount.current = 0);
 
   const counter = () => {
-    if (statusCount <= COUNTDOWN) {
+    console.log(statusCount.current <= COUNTDOWN);
+    if (statusCount.current <= COUNTDOWN) {
+      console.log(statusCount.current, "count");
       increaseStatusCounter();
     }
-    if (statusCount > COUNTDOWN) {
+    if (statusCount.current > COUNTDOWN) {
+      users[activeUserIndex].status[activeStatusIndex].viewed = true;
       const nextStatusIndex = activeStatusIndex + 1;
-      console.log(nextStatusIndex <= userStatusArray.length - 1, "statusCount");
       if (nextStatusIndex <= userStatusArray.length - 1) {
-        console.log('inside true', nextStatusIndex)
         setActiveStatusIndex(nextStatusIndex);
         slidesRef.current.scrollToIndex({ index: nextStatusIndex });
         resetStatusCounter();
       } else {
         const nextUserIndex = activeUserIndex + 1;
-        console.log(nextUserIndex <= users.length - 1, activeStatusIndex, 'new user')
         if (nextUserIndex <= users.length - 1) {
           setActiveStatusIndex(0);
-          slidesRef.current.scrollToIndex({animated: false, index: 0 });
+          slidesRef.current.scrollToIndex({ animated: false, index: 0 });
           resetStatusCounter();
           setActiveUserIndex(nextUserIndex);
         } else {
@@ -103,7 +94,6 @@ const StatusDisplay = ({ navigation, route }) => {
     resetStatusCounter();
 
     return () => {
-      console.log('here..///')
       clearInterval(count);
       resetStatusCounter();
     };
@@ -112,12 +102,12 @@ const StatusDisplay = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        {/* header */}
         <StatusHeader
           activeStatusIndex={activeStatusIndex}
           activeUserIndex={activeUserIndex}
           setActiveStatusIndex={activeStatusIndex}
           userInfo={userInfo}
+          statusCount={statusCount}
         />
 
         <View

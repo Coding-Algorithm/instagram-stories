@@ -5,7 +5,7 @@ import { windowWidth } from "../../utils/dimensions";
 import { padding } from "../../utils/globalStyles";
 import DisplayBars from "./displayBars";
 
-const StatusHeader = ({ userInfo, activeStatusIndex, activeUserIndex }) => {
+const StatusHeader = ({ userInfo, statusCount, activeStatusIndex, activeUserIndex }) => {
   const statusArray = users[activeUserIndex].status;
 
   const totalMargin = (statusArray.length - 1) * 6;
@@ -31,13 +31,18 @@ const StatusHeader = ({ userInfo, activeStatusIndex, activeUserIndex }) => {
         style={{
           width: "90%",
           flexDirection: 'row',
+          alignItems: 'center',
           justifyContent: "flex-start"
         }}
       >
         {statusArray.map((item, index) => {
+
+
           return (
             <DisplayBars
+              statusCount={statusCount}
               key={index}
+              index={index}
               item={item}
               activeUserIndex={activeUserIndex}
               activeStatusIndex={activeStatusIndex}

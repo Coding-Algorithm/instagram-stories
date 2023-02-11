@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useContext, useRef } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 const GlobalContext = createContext();
@@ -9,10 +9,14 @@ const INITIAL_STATE = {
 
 const GlobalContextProvider = ({children}) => {
 
-    
+  const statusCount = useRef(0)
 
   return (
-    <GlobalContext.Provider>
+    <GlobalContext.Provider
+    value={{
+      statusCount
+    }}
+    >
         {children}
     </GlobalContext.Provider>
   );
@@ -20,6 +24,8 @@ const GlobalContextProvider = ({children}) => {
 
 export default GlobalContextProvider;
 
-export const GetContext = () => {};
+export const GetContext = () => {
+  return useContext(GlobalContext)
+};
 
 const styles = StyleSheet.create({});
