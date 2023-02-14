@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
 import ProfilePic from "./profilePic";
 import users from "../../data/users";
 import { padding, radius } from "../../utils/globalStyles";
@@ -11,6 +12,8 @@ import SmallText from "../../utils/texts/smallText";
 const UserItem = ({ index, name }) => {
   const navigation = useNavigation();
 
+  const isFocused = useIsFocused();
+
   const [activeStatus, setActiveStatus] = useState(false);
 
   const userStatusArray = users[index].status;
@@ -21,13 +24,13 @@ const UserItem = ({ index, name }) => {
   };
 
   useEffect(() => {
-    // console.log(activeStatus, index)
-    userStatusArray.forEach((stat, index) => {
-      console.log(stat.viewed, index)
-      !stat.viewed && !activeStatus && setActiveStatus(true);
-      stat.viewed && activeStatus && setActiveStatus(false);
-    });
-  });
+    if (isFocused) {
+      userStatusArray.forEach((stat, index) => {
+        !stat.viewed && !activeStatus && setActiveStatus(true);
+        stat.viewed && activeStatus && setActiveStatus(false);
+      });
+    }
+  }, [isFocused]);
 
   return (
     <Pressable
@@ -35,7 +38,6 @@ const UserItem = ({ index, name }) => {
       style={styles.container}
       onPress={() => {
         navigation.navigate("statusdisplay", { userInfo: index });
-        console.log("User pressed");
       }}
     >
       <ProfilePic

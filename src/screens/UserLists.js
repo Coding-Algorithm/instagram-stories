@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import users from "../data/users";
 import UserItem from "../components/userLists/userItem";
 import { calcWidth } from "../utils/calcHeightNWidth";
@@ -7,14 +7,6 @@ import { padding } from "../utils/globalStyles";
 import { GetContext } from "../context/GlobalContext/GlobalContext";
 
 const UserLists = ({ navigation }) => {
-
-  useEffect(() => {
-    console.log('Good..')
-
-    return (() => {
-      console.log('Good..../')
-    })
-  }, []);
 
   return (
     <View style={styles.container}>

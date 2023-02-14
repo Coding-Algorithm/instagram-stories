@@ -30,9 +30,7 @@ const StatusDisplay = ({ navigation, route }) => {
   const resetStatusCounter = () => (statusCount.current = 0);
 
   const counter = () => {
-    console.log(statusCount.current <= COUNTDOWN);
     if (statusCount.current <= COUNTDOWN) {
-      console.log(statusCount.current, "count");
       increaseStatusCounter();
     }
     if (statusCount.current > COUNTDOWN) {
@@ -120,6 +118,16 @@ const StatusDisplay = ({ navigation, route }) => {
             pagingEnabled
             ref={slidesRef}
           />
+
+          <View style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            backgroundColor: "grey",
+            opacity: 0
+          }}>
+
+          </View>
         </View>
       </View>
     </SafeAreaView>
